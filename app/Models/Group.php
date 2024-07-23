@@ -20,12 +20,16 @@ class Group extends Model
         'room',
         'day_table',
         'time_table',
-        'group_name'
+        'group_name',
+        'days_of_week',
+        'start_time',
+        'end_time'
     ];
 
     // enrollment_id atributini array (JSON) ga aylantirish
     protected $casts = [
-        'enrollment_id' => 'array'
+        'enrollment_id' => 'array',
+        'days_of_week' => 'array' // Cast days_of_week to array
     ];
 
     // Relationship with Attendance model

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enrollment;
 use App\Models\Group;
 use App\Models\Attendance;
 use App\Models\Branch;
-use App\Models\Enrollment;
 use App\Models\Course;
-use App\Models\Enrollment_group;
 use App\Models\StudentRegister;
 use App\Models\User;
 use Carbon\Carbon;
@@ -54,9 +53,9 @@ class GroupController extends Controller
                 'attendanceData' => $attendanceData,
             ]);
         } catch (\Exception $e) {
-            dd($request->all());
+            \Log::error('Error fetching monthly attendance: ', ['exception' => $e]);
 
-            return response()->json(['error' => 'Internal Server Error Quvonchbek'], 500);
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
 
@@ -70,11 +69,11 @@ class GroupController extends Controller
     // Show the form for creating a new group
     public function create()
     {
+        $enrollments = Enrollment::all();
         $teachers = User::where('role', 2)->get();
         $branches = Branch::all();
-        $enrollments = Enrollment::all();
         $courses = Course::all();
-        return view('pages.groups.create', compact('branches', 'enrollments', 'courses', 'teachers'));
+        return view('pages.groups.create', compact('branches', 'courses', 'teachers','enrollments'));
     }
 
     // Store a newly created group in storage
@@ -85,10 +84,12 @@ class GroupController extends Controller
             'enrollment_id' => 'nullable|exists:enrollments,id',
             'course_id' => 'required|exists:courses,id',
             'teacher_id' => 'required|exists:users,id',
-            'room' => 'nullable',
-            'day_table' => 'nullable',
-            'time_table' => 'nullable',
-            'group_name' => 'nullable',
+            'room' => 'nullable|string',
+            'group_name' => 'nullable|string',
+            'days_of_week' => 'nullable|array',
+            'days_of_week.*' => 'string|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
         ]);
 
         Group::create($validated);
@@ -119,7 +120,7 @@ class GroupController extends Controller
     {
         $validated = $request->validate([
             'students' => 'required|array',
-            'students.*' => 'exists:users,id',
+            'students.*' => 'exists:student_registers,id',
             'group_id' => 'required|exists:groups,id',
             'date' => 'nullable|date'
         ]);
@@ -150,10 +151,7 @@ class GroupController extends Controller
         return redirect()->route('groups.show', $group->id)->with('success', 'Students added successfully.');
     }
 
-
-
-
-    // Remove a students from a group
+    // Remove a student from a group
     public function removeStudent(Request $request, $groupId, $studentId)
     {
         $group = Group::findOrFail($groupId);
@@ -164,31 +162,43 @@ class GroupController extends Controller
     // Show the form for editing a group
     public function edit(Group $group)
     {
-        $branches = Branch::all();
         $enrollments = Enrollment::all();
+        $branches = Branch::all();
         $courses = Course::all();
         $teachers = User::where('role', 2)->get();
-        return view('pages.groups.edit', compact('group', 'branches', 'enrollments', 'teachers', 'courses'));
+        return view('pages.groups.edit', compact('group', 'branches', 'teachers', 'courses','enrollments'));
     }
 
     // Update the specified group in storage
     public function update(Request $request, Group $group)
     {
+        // Debugging: Check the incoming request data
+        // dd($request->all());
+
+        // Define validation rules
         $validated = $request->validate([
-            'branch_id' => 'required|exists:branches,id',
+            'branch_id' => 'nullable|exists:branches,id',
             'enrollment_id' => 'nullable|exists:enrollments,id',
-            'course_id' => 'required|exists:courses,id',
-            'teacher_id' => 'required|exists:users,id',
-            'room' => 'nullable',
-            'day_table' => 'nullable',
-            'time_table' => 'nullable',
-            'group_name' => 'nullable',
+            'course_id' => 'nullable|exists:courses,id',
+            'teacher_id' => 'nullable|exists:users,id',
+            'room' => 'nullable|string',
+            'group_name' => 'nullable|string',
+            'days_of_week' => 'nullable|array',
+            'days_of_week.*' => 'string|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'start_time' => 'nullable|date_format:H:i',
+            'end_time' => 'nullable|date_format:H:i',
         ]);
 
+        // Debugging: Check if validation passed
+        // dd($validated);
+
+        // Update the group with validated data
         $group->update($validated);
 
+        // Redirect with success message
         return redirect()->route('groups.index')->with('success', 'Group updated successfully.');
     }
+
 
     // Remove the specified group from storage
     public function destroy(Group $group)
@@ -247,12 +257,11 @@ class GroupController extends Controller
     // Show attendance view for a group
     public function showAttendance($id)
     {
-        $group = Group::findOrFail($id);
-        $students = $group->enrollments;
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $endOfMonth = Carbon::now()->endOfMonth();
-        $attendance = Attendance::whereBetween('date', [$startOfMonth, $endOfMonth])->get();
+        $group = Group::find($id);
+        $attendances = Attendance::where('group_id', $id)
+            ->whereDate('date', Carbon::today()->toDateString())
+            ->get();
 
-        return view('pages.groups.showAttendance', compact('group', 'students', 'attendance', 'startOfMonth', 'endOfMonth'));
+        return view('pages.groups.attendance_view', compact('group', 'attendances'));
     }
 }

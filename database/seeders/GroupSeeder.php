@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class GroupSeeder extends Seeder
 {
@@ -16,9 +17,10 @@ class GroupSeeder extends Seeder
      */
     public function run(): void
     {
+        // Fetching all necessary records
         $branches = Branch::all();
         $courses = Course::all();
-        $teachers = User::where('role', 2)->get();
+        $teachers = User::where('role', 2)->get(); // Assuming 'role' 2 is for teachers
         $enrollments = Enrollment::all();
 
         $groupCount = 0;
@@ -46,13 +48,12 @@ class GroupSeeder extends Seeder
                         'course_id' => $course->id,
                         'teacher_id' => $teacher->id,
                         'room' => "Room " . ($groupCount + 1),
-                        'day_table' => "Mon, Wed, Fri",
-                        'time_table' => "10:00-12:00",
-                        'group_name' => "Group " . ($groupCount + 1)
+                        'group_name' => "Group " . ($groupCount + 1),
+                        'enrollment_id' => [$enrollments->random()->id], // Assign random enrollment IDs
+                        'days_of_week' => ['Mon', 'Wed', 'Fri'], // Example days
+                        'start_time' => '10:00:00', // Example start time
+                        'end_time' => '12:00:00'    // Example end time
                     ]);
-
-                    // Add enrollment_id as an array
-                    $group->enrollment_id = [$enrollments->random()->id];
 
                     $group->save();
 

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('teacher_id'); // Simply declare the column without 'after'
             $table->string('group_name');
             $table->string('room')->nullable();
-            $table->string('day_table')->nullable();
-            $table->string('time_table')->nullable();
+            $table->json('days_of_week')->nullable(); // Add JSON column for days of week
+            $table->time('start_time')->nullable(); // Add column for start time
+            $table->time('end_time')->nullable();
             $table->foreign('teacher_id')
                 ->references('id')
                 ->on('users')
@@ -34,6 +35,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropColumn('days_of_week'); // Remove the days_of_week column
+            $table->dropColumn('start_time'); // Remove the start_time column
+            $table->dropColumn('end_time');
+        });
     }
 };
