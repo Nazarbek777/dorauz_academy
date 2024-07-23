@@ -18,13 +18,13 @@ class Attendance extends Model
 
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(StudentRegister::class, 'student_id');
     }
 
     public function group()
     {
         return $this->belongsTo(Group::class, 'group_id');
     }
-        
+
 
 }

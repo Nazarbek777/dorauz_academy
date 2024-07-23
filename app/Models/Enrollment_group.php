@@ -12,13 +12,17 @@ class Enrollment_group extends Model
 
     protected $fillable = [
         'group_id',
-        'user_id',
+        'student_register_id',
         'date'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
+    public function studentRegister()
+    {
+        return $this->belongsTo(StudentRegister::class);
+    }
 
-    
+
 }

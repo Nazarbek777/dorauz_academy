@@ -8,9 +8,11 @@ use App\Models\Branch;
 use App\Models\Enrollment;
 use App\Models\Course;
 use App\Models\Enrollment_group;
+use App\Models\StudentRegister;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -54,7 +56,6 @@ class GroupController extends Controller
         } catch (\Exception $e) {
             dd($request->all());
 
-            \Log::error('Error in getMonthAttendance: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error Quvonchbek'], 500);
         }
     }
@@ -109,7 +110,7 @@ class GroupController extends Controller
     public function studentStoreGet($id)
     {
         $group = Group::find($id);
-        $students = User::where('role', 1)->get();
+        $students = StudentRegister::all();
         return view('pages.groups.studentStore', compact('group', 'students'));
     }
 
@@ -124,15 +125,33 @@ class GroupController extends Controller
         ]);
 
         $group = Group::findOrFail($request->group_id);
-        $currentEnrollments = $group->enrollments()->pluck('users.id')->toArray();
+
+        // Ensure all students exist in student_registers table
+        $studentsExist = DB::table('student_registers')
+            ->whereIn('id', $validated['students'])
+            ->pluck('id')
+            ->toArray();
+
+        if (count($studentsExist) !== count($validated['students'])) {
+            return redirect()->back()->withErrors(['students' => 'One or more student IDs are invalid.']);
+        }
+
+        $currentEnrollments = $group->enrollments()->pluck('student_register_id')->toArray();
         $studentsToAttach = array_diff($validated['students'], $currentEnrollments);
 
         if (!empty($studentsToAttach)) {
-            $group->enrollments()->attach($studentsToAttach, ['date' => $validated['date']]);
+            $attachData = [];
+            foreach ($studentsToAttach as $studentId) {
+                $attachData[$studentId] = ['date' => $validated['date']];
+            }
+            $group->enrollments()->attach($attachData);
         }
 
         return redirect()->route('groups.show', $group->id)->with('success', 'Students added successfully.');
     }
+
+
+
 
     // Remove a students from a group
     public function removeStudent(Request $request, $groupId, $studentId)

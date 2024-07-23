@@ -1,6 +1,6 @@
     @extends('layouts.layout')
     @section('content')
-    
+
     <!--! ================================================================ !-->
     <!--! [Start] Main Content !-->
     <!--! ================================================================ !-->
@@ -86,7 +86,7 @@
             <!-- [ Main Content ] start -->
             <div class="main-content">
                 <div class="row">
-                
+
                 <div class="col-xxl-2 col-lg-4 col-md-6">
                         <div class="card stretch stretch-full">
                             <div class="card-body">
@@ -313,13 +313,13 @@
                                             <tr>
                                                 <th scope="col">Ism Familiya</th>
                                                 <th scope="col" >Filial</th>
-                                            
+
                                                 <th scope="col">Kelgan sanasi</th>
-                                                
+
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($users as $user)
+                                        @foreach($students as $user)
                                             <tr>
                                                 <td class="position-relative">
                                                     <div class="ht-50 position-absolute start-0 top-50 translate-middle border-start border-5 border-success rounded"></div>
@@ -328,18 +328,19 @@
                                                 <td>
                                                    {{$user->branch->name ??  'Filial kiritilmagan'}}
                                                 </td>
-                                               
+
                                                 <td>
                                                     <a href="javascript:void(0)" class="badge bg-soft-success text-success">{{$user->created_at}}</a>
-                                                    
+
                                                 </td>
-                                                
+
                                             </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                            {{ $students->links() }}
                         </div>
                     </div>
                     <!-- [Leads Status] end -->
@@ -395,7 +396,7 @@
                                                 </div>
                                             </div>
                                             <div class="img-group lh-0 ms-2 justify-content-start d-none d-sm-flex">
-                                               
+
                                                 <a href="javascript:void(0)" class="avatar-text" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Explorer More">{{ $group->enrollments->count() }} </a>
                                             </div>
                                         </div>
@@ -442,14 +443,14 @@
                                 </div>
                             </div>
                             <div class="card-body custom-card-action">
-                                
+
                                 @foreach ($groups as $group)
                                 <div class="row g-0 align-items-center border border-dashed rounded-3 mb-4">
                                     <div class="col-lg-4">
                                         <div class="d-lg-flex align-items-center">
                                             <div class="m-3 wd-150 d-flex flex-column justify-content-center align-items-center text-center">
                                                 <div class="p-3 wd-150 bg-soft-primary text-primary rounded-top">
-                                                   
+
                                                          <a href="{{ route('studentStoreGet', $group->id) }}">
                                                              <i class="feather-user-plus"></i>
                                                         </a>
@@ -479,9 +480,9 @@
                                                             <i class="feather-map-pin"></i>
                                                         </div>
                                                         <span class="text-truncate-1-line"> {{ $group->branch->name }}</span>
-                                                      
+
                                                     </div>
-                                                    
+
                                                     <a href="{{ route('groups.show', $group->id) }}" class="hstack gap-2 lh-sm">
                                                         <span>
                                                             <i class="feather-more-horizontal"></i>
@@ -499,7 +500,7 @@
                                                     <label class="fs-12 text-muted">Kurs narxi (UZS)</label>
                                                     <div class="fs-14 fw-bold text-dark">{{$group->courses->cost}} ming</div>
                                                 </div>
-                                            
+
                                             </div>
                                             <div class="col-lg-6 col-xl-4">
                                                 <div class="form-group mb-4">
@@ -534,7 +535,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach 
+                                @endforeach
                                 {{$groups->links()}}
                             </div>
                         </div>
@@ -551,7 +552,7 @@
     <!--! ================================================================ !-->
     <!--! [End] Main Content !-->
     <!--! ================================================================ !-->
-    
+
 <style>
     .card {
         transition: transform 0.2s, box-shadow 0.2s;

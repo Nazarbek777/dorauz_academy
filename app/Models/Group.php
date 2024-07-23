@@ -39,11 +39,11 @@ class Group extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
-    
+
     // Many-to-Many relationship with User model through group_enrollment table
     public function enrollments()
     {
-        return $this->belongsToMany(User::class, 'group_enrollment');
+        return $this->belongsToMany(StudentRegister::class, 'group_enrollment', 'group_id', 'student_register_id');
     }
 
     // Relationship with Transaction model

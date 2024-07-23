@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <!-- Link to Create New User -->
-                            <a href="route('register')" class="btn btn-primary">
+                            <a href="{{route('student_registers.create')}}" class="btn btn-primary">
                                 <i class="feather-plus me-2"></i>
                                 <span>O`quvchi qo`shish</span>
                             </a>
@@ -75,16 +75,15 @@
                                             </th>
                                             <th>ID</th>
                                             <th>Ism familyasi</th>
-                                              <th>Filial nomi</th>
                                             <th>Phone Number</th>
-                                        
+                                            <th>Email</th>
                                             <th>Role</th>
                                             <th class="text-end">Sozlamalar</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach ($users as $user)
-                                        
+
                                             <tr>
                                                 <td>
                                                     <div class="custom-control custom-checkbox">
@@ -94,25 +93,19 @@
                                                 </td>
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                                                <td> 
-                                                 @if ($user->branch)
-                                                        <p>{{ $user->branch->name }}</p> <!-- Filial nomi -->
-                                                    @else
-                                                        <p>Filial topilmadi</p>
-                                                    @endif 
-                                                </td>
-                                                <td>{{ $user->phone_number }}</td>
-                                           
-                                                <td>Student</td>
+                                                <td>{{ $user->phone }}</td>
+                                                <td>{{ $user->email }}</td>
+
+                                                <td>O'quvchi</td>
                                                 <td>
                                                     <div class="hstack gap-2 justify-content-end">
 {{--                                                        <a href="javascript:void(0);" class="avatar-text avatar-md">--}}
 {{--                                                            <i class="feather-eye"></i>--}}
 {{--                                                        </a>--}}
-                                                        <a href="{{ route('user.edit', $user->id) }}" class="avatar-text avatar-md">
+                                                        <a href="{{ route('student_registers.edit', $user->id) }}" class="avatar-text avatar-md">
                                                             <i class="feather-edit-3"></i>
                                                         </a>
-                                                        <form id="deleteForm" action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
+                                                        <form id="deleteForm" action="{{ route('student_registers.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button id="deleteButton" class="avatar-text avatar-md delete-user text-dark" type="submit"><i class="feather-trash-2"></i></button>

@@ -75,16 +75,16 @@
                                             </th>
                                             <th>ID</th>
                                             <th>Ism familyasi</th>
-                                              <th>Filial nomi</th>
+                                              <th>Email</th>
                                             <th>Telefon raqami</th>
-                                        
+
                                             <th>Role</th>
                                             <th class="text-start">Sozlamalar</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach ($users as $user)
-                                        
+
                                             <tr>
                                                 <td>
                                                     <div class="custom-control custom-checkbox">
@@ -94,16 +94,12 @@
                                                 </td>
                                                 <td>{{ $user->id }}</td>
                                                 <td>{{ $user->first_name }} {{ $user->last_name }}</td>
-                                                <td> 
-                                                 @if ($user->branch)
-                                                        <p>{{ $user->branch->name }}</p> <!-- Filial nomi -->
-                                                    @else
-                                                        <p>Filial topilmadi</p>
-                                                    @endif 
+                                                <td>
+                                                    {{ $user->email }}
                                                 </td>
                                                 <td>{{ $user->phone_number }}</td>
-                                           
-                                                <td>  
+
+                                                <td>
                                                    @if($user->role== 0)
                                                       admin
                                                       @elseif($user->role== 1)
@@ -113,14 +109,14 @@
                                                       @endif
                                                 </td>
                                                 <td class="d-flex mt-2 ">
-                                           
+
                                                         <a href="{{ route('user.edit', $user->id) }}" class="avatar-text avatar-md">
                                                             <i class="feather-edit-3"></i>
                                                         </a>
                                                         <form class="d-none"  id="deleteForm" action="{{ route('user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
                                                             @csrf
                                                             @method('DELETE')
-                                                           
+
                                                             <button id="deleteButton" class="avatar-text avatar-md delete-user text-dark" type="submit"><i class="feather-trash-2"></i></button>
                                                         </form>
                                                     </div>
@@ -132,12 +128,12 @@
                                 </div>
                             </div>
 
-                        <div class="mt-3 mx-2"> 
-                        
+                        <div class="mt-3 mx-2">
+
                          {{$users->links()}}
                         </div>
                         </div>
-                           
+
                     </div>
                 </div>
             </div>

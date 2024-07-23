@@ -18,7 +18,8 @@ class StoreStudentRegisterRequest extends FormRequest
             'first_name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
+            'email' => 'nullable|email:rfc,dns|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 }

@@ -17,14 +17,7 @@ $branches = \App\Models\Branch::all();
                         <form action="{{ route('user.update', $user->id) }}" method="post" class="w-100 mt-4 pt-2">
                             @csrf
                             @method('PUT')
-                            <div class="mb-4">
-                                <select class="form-control" name="branch_id" id="branch_id" required>
-                                    <option value="" disabled>Select Branch</option>
-                                    @foreach($branches as $branch)
-                                        <option class="text-black" value="{{ $branch->id }}" @if($branch->id == $user->branch_id) selected @endif>{{ $branch->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+
                             <div class="row">
                                 <div class=" col-md-6">
                                     <div class="mb-4">
@@ -33,19 +26,12 @@ $branches = \App\Models\Branch::all();
                                     <div class="mb-4">
                                         <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="{{ $user->last_name }}">
                                     </div>
-{{--                                    <div class="mb-4">--}}
-{{--                                        <input type="email" class="form-control" placeholder="Email" name="email" value="{{ $user->email }}" required>--}}
-{{--                                    </div>--}}
                                     <div class="mb-4">
                                         <input type="password" class="form-control" placeholder="Password" name="password">
                                     </div>
                                     <div class="mb-4">
-                                        <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
-                                    </div>
-                                    <div class="mb-4">
                                         <select name="role" class="form-control" required>
-                                            <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_STUDENT }}" @if($user->role == \App\Helpers\MainHelper::ROLE_STUDENT) selected @endif>Student</option>
-                                            <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_TEACHER }}" @if($user->role == \App\Helpers\MainHelper::ROLE_TEACHER) selected @endif>Teacher</option>
+                                            <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_TEACHER }}" @if($user->role == \App\Helpers\MainHelper::ROLE_TEACHER) selected @endif>O'qituvchi</option>
                                             <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_ADMIN }}" @if($user->role == \App\Helpers\MainHelper::ROLE_ADMIN) selected @endif>Admin</option>
                                         </select>
                                     </div>
@@ -58,9 +44,11 @@ $branches = \App\Models\Branch::all();
                                         <input type="text" class="form-control" placeholder="Address" name="address" value="{{ $user->address }}">
                                     </div>
                                     <div class="mb-4">
-                                        <input type="text" class="form-control" placeholder="Specialization" name="specialization" value="{{ $user->specialization }}">
+                                        <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirmation">
                                     </div>
+
                                 </div>
+
                             </div>
                             <div class="mt-5">
                                 <button type="submit" class="btn btn-lg btn-primary w-100">Update</button>

@@ -45,11 +45,11 @@
                     <li class="nxl-item nxl-hasmenu">
                         <a href="{{route('register')}}" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-user"></i></span>
-                            <span class="nxl-mtext">Hodimlar Register</span>
+                            <span class="nxl-mtext">Xodimlar Register</span>
                         </a>
                     </li>
                     <li class="nxl-item nxl-hasmenu">
-                        <a href="{{route('student_registers.index')}}" class="nxl-link">
+                        <a href="{{route('student_registers.create')}}" class="nxl-link">
                             <span class="nxl-micon"><i class="feather-user"></i></span>
                             <span class="nxl-mtext">O'quvchilar Register</span>
                         </a>
@@ -64,9 +64,9 @@
                             <span class="nxl-mtext">Foydalanuvchilar</span><span class="nxl-arrow"><i class="feather-chevron-right"></i></span>
                         </a>
                         <ul class="nxl-submenu">
-                            <li class="nxl-item"><a class="nxl-link" href="{{route('user.all')}}">Barcha foydalanuvchilar</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{route('user.all')}}">Barcha Xodimlar</a></li>
+                            <li class="nxl-item"><a class="nxl-link" href="{{ route('user.students')}}">Barcha o'quvchilar</a></li>
                             <li class="nxl-item"><a class="nxl-link" href="{{route('user.admin')}}">Adminlar</a></li>
-                            <li class="nxl-item"><a class="nxl-link" href="{{ route('user.students')}}">O'quvchilar</a></li>
                             <li class="nxl-item"><a class="nxl-link" href="{{route('user.teacher')}}">O'qituvchilar</a></li>
                         </ul>
                     </li>

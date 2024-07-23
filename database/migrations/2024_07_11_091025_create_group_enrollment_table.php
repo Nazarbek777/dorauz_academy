@@ -13,8 +13,8 @@ class CreateGroupEnrollmentTable extends Migration
     {
         Schema::create('group_enrollment', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_register_id')->constrained('student_registers');
             $table->foreignId('group_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->date('date')->nullable();
             $table->timestamps();
 

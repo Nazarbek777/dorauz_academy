@@ -36,7 +36,7 @@ class StudentRegisterController extends Controller
 
         StudentRegister::create($validated);
 
-        return redirect()->route('student_registers.index')->with('success', 'Student registered successfully.');
+        return redirect()->route('user.students')->with('success', 'Student registered successfully.');
     }
 
     /**
@@ -68,7 +68,7 @@ class StudentRegisterController extends Controller
 
         $studentRegister->update($validated);
 
-        return redirect()->route('student_registers.index')->with('success', 'Student information updated successfully.');
+        return redirect()->route('user.students')->with('success', 'Student information updated successfully.');
     }
 
     /**
@@ -78,6 +78,6 @@ class StudentRegisterController extends Controller
     {
         $studentRegister->delete();
 
-        return redirect()->route('student_registers.index')->with('success', 'Student deleted successfully.');
+        return redirect()->route('user.students')->with('success', 'Student deleted successfully.');
     }
 }

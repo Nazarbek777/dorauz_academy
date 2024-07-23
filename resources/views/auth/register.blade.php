@@ -52,7 +52,7 @@ $branches = \App\Models\Branch::all();
                                 </div>
                                 <div class="mb-4">
                                     <select name="role" class="form-control" required>
-                                        <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_STUDENT }}">O'quvchi</option>
+                                        <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_ADMIN }}">Admin</option>
                                         <option class="text-black" value="{{ \App\Helpers\MainHelper::ROLE_TEACHER }}">O'qituvchi</option>
                                     </select>
                                 </div>

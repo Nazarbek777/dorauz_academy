@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\MainHelper;
 use App\Http\Controllers\Controller;
+use App\Models\StudentRegister;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,11 +31,9 @@ class LoginController extends Controller
     public function student()
     {
         // Filiallarni oldindan yuklab olish
-        $users = User::with('branch')
-                    ->where('role', 1)
-                    ->get();
+        $users = StudentRegister::all();
 
-        return view('auth.user.students', compact('users'));
+        return view('auth.user.student', compact('users'));
     }
 
 

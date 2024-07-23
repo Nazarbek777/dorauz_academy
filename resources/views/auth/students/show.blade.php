@@ -1,1 +1,1 @@
-<?php
+o'quvchi show

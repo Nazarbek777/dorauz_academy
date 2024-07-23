@@ -13,38 +13,35 @@ $branches = \App\Models\Branch::all();
                         <img src="{{ asset('assets/images/logo-abbr.png') }}" alt="" class="img-fluid">
                     </div>
                     <div class="card-body p-sm-5">
-                        <h2 class="fs-20 fw-bolder mb-4">Ro'yxatdan o'tish</h2>
-                        <form action="{{ route('student_registers.store') }}" method="post" class="w-100 mt-4 pt-2" >
+                        <h2 class="fs-20 fw-bolder mb-4">O'quvchilar Ro'yxatdan o'tkazish</h2>
+                        <form action="{{ route('student_registers.store') }}" method="post" class="w-100 mt-4 pt-2">
                             @csrf
 
                             <div class="row">
-                                <div class=" col-md-6">
+                                <div class="col-md-6">
                                     <div class="mb-4">
                                         <input type="text" class="form-control" placeholder="Ism" name="first_name" required>
                                     </div>
                                     <div class="mb-4">
-                                        <input type="text" class="form-control" placeholder="Familiya" name="last_name" >
+                                        <input type="text" class="form-control" placeholder="Familiya" name="last_name">
                                     </div>
                                     <div class="mb-4">
-                                        <input type="email" class="form-control" placeholder="Email" name="email" >
+                                        <input type="email" class="form-control" placeholder="Email" name="email">
                                     </div>
                                     <div class="mb-4">
-                                        <input type="password" class="form-control" placeholder="Parolni tasdiqlang" name="password_confirmation" >
+                                        <input type="password" class="form-control" placeholder="Parolni tasdiqlang" name="password_confirmation" required>
                                     </div>
-
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <input type="text" class="form-control" placeholder="Telefon raqami" name="phone" >
+                                        <input type="text" class="form-control" placeholder="Telefon raqami" name="phone">
                                     </div>
                                     <div class="mb-4">
                                         <input type="text" class="form-control" placeholder="Manzil" name="address">
                                     </div>
-
                                     <div class="mb-4">
-                                        <input type="password" class="form-control" placeholder="Parol" name="password" >
+                                        <input type="password" class="form-control" placeholder="Parol" name="password" required>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="mt-5">

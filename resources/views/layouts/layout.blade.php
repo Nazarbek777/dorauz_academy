@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="keyword" content="">
     <meta name="author" content="theme_ocean">
+
     <style>
     /* Style for Select2 dropdown */
     .select2-container--default .select2-selection--multiple {
@@ -94,7 +95,7 @@
     <!--! ================================================================ !-->
 
     @yield('content')
-    
+
     <!--! ================================================================ !-->
     <!--! [Start] Search Modal !-->
     <!--! ================================================================ !-->
